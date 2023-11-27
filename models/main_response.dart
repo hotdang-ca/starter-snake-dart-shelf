@@ -1,4 +1,9 @@
 class MainResponse {
+  static const keyApiVersion = 'apiversion';
+  static const keyColor = 'color';
+  static const keyHead = 'head';
+  static const keyTail = 'tail';
+  
   final int apiVersion;
   final String author;
   final String primaryColor;
@@ -15,10 +20,10 @@ class MainResponse {
 
   Map<String, dynamic> toJson() {
     return {
-      'apiversion': apiVersion,
-      'color': primaryColor,
-      'head': headColor,
-      'tail': tailColor,
+      keyApiVersion: apiVersion,
+      keyColor: primaryColor,
+      keyHead: headColor,
+      keyTail: tailColor,
     };
   }
 }
