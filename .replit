@@ -1,0 +1,6 @@
+entrypoint = "main.dart"
+modules = ["dart-3.0:v1-20230623-0b7a606"]
+
+[deployment]
+run = ["dart", "main.dart"]
+deploymentTarget = "cloudrun"
