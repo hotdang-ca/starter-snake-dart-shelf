@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 
+import 'models/enums/direction.dart';
 import 'models/main_response.dart';
 
 /// Configure routes.
@@ -43,12 +45,13 @@ Future<Response> _startHandler(Request request) async {
 Future<Response> _moveHandler(Request request) async {
   final gameData = await request.readAsString();
 
-  // TODO: filter on possible moves
-  final String move = '';
-  // const possibleMoves: Direction[] = ['up', 'down', 'left', 'right']
-  // const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)]
+  /// Select the valid moves
+  final possibleMoves = Direction.values;
 
-  print('MOVE: $move');
+  // choose a random move
+  final move = possibleMoves.elementAt(Random().nextInt(possibleMoves.length));
+
+  print('MOVE: ${move.name}');
 
   return Response.ok('ok');
 }
