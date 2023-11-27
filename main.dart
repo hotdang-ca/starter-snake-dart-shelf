@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'dart:convert';
+
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-// Configure routes.
+import 'models/main_response.dart';
+
+/// Configure routes.
 final _router = Router()
   ..get('/', _rootHandler)
   ..post('/start', _startHandler)
@@ -13,23 +16,26 @@ final _router = Router()
 
 /// Request handler for the root path
 Response _rootHandler(Request req) {
+  final mainResponse = MainResponse(
+    apiVersion: 1,
+    author: 'Battlesnake',
+    primaryColor: '#888888',
+    headColor: 'default',
+    tailColor: 'default',
+  );
+  
   return Response.ok(
-    json.encode({
-      'apiversion': '1',
-      'author': '',
-      'color': '#888888',
-      'head': 'default',
-      'tail': 'default',
-    }), 
+    json.encode(mainResponse),
     headers: {
-    'Content-Type': 'application/json',
-    });
+      'Content-Type': 'application/json',
+    },
+  );
 }
 
 /// Request handler for the Start path
 Future<Response> _startHandler(Request request) async {
   final gameData = await request.readAsString();
-  
+
   print('START');
   return Response.ok('ok');
 }
@@ -47,7 +53,6 @@ Future<Response> _moveHandler(Request request) async {
 
   return Response.ok('ok');
 }
-
 
 /// Request handler for the End path
 Future<Response> _endHandler(Request request) async {
