@@ -16,20 +16,20 @@ final _router = Router()
   ..post('/move', _moveHandler)
   ..post('/end', _endHandler);
 
-/// Your main response. Specify your details here.
-final mainResponse = MainResponse(
-  apiVersion: '1',
-  author: 'Battlesnake',
-  primaryColor: '#888888',
-  headColor: 'default',
-  tailColor: 'default',
-);
-
 /// Convenience method for returning a JSON response
 Response _jsonResponse (encodable) => Response.ok(json.encode(encodable), headers: { 'Content-Type': 'application/json'});
 
 /// Request handler for the root path
 Response _rootHandler(Request req) {
+  // Your main configuration. Specify your details here.
+  final mainResponse = MainResponse(
+    apiVersion: '1',
+    author: 'Battlesnake',
+    primaryColor: '#888888',
+    headColor: 'default',
+    tailColor: 'default',
+  );
+  
   return _jsonResponse(mainResponse);
 }
 
