@@ -1,22 +1,22 @@
 class SquadSettings {
   /// Allow members of the same squad to move over each other without dying.
   /// 
-  /// Example: true
+  /// **Example**: true
   final bool allowBodyCollisions;
 
   /// All squad members are eliminated when one is eliminated.
   ///
-  /// Example: true
+  /// **Example**: true
   final bool sharedElimination;
 
   /// All squad members share health.
   /// 
-  /// Example: true
+  /// **Example**: true
   final bool sharedHealth;
 
   /// All squad members share length.
   ///
-  /// Example: true
+  /// **Example**: true
   final bool sharedLength;
 
   SquadSettings({
