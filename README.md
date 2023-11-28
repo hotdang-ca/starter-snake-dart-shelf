@@ -1,22 +1,16 @@
 # A Simple [Battlesnake](http://play.battlesnake.com) Written in Dart with Shelf
 
 This is a basic implementation of the [Battlesnake API](https://docs.battlesnake.com/references/api).
-It's a great starting point for anyone wanting to program their first Battlesnake
-using Dart. It comes ready to use with [Repl.it](https://repl.it) and provides
-instructions below for getting started. Once compiled, it can also be deployed to
-[Heroku](https://heroku.com), or any other cloud provider you'd like.
+It's a great starting point for anyone wanting to program their first Battlesnake using Dart. It comes ready to use with [Repl.it](https://repl.it) and provides instructions below for getting started. Once compiled, it can also be deployed to [Heroku](https://heroku.com), or any other cloud provider you'd like.
 
-This project is copied and modified from the [Kian Gorgichuk's](https://github.com/kgorgi) 
-[TypeScript Starter Project](https://github.com/kgorgi/starter-snake-node-ts/), of which 
-was copied and modified from Battlesnake's offical
-[JavaScript Starter Project](https://github.com/battlesnakeofficial/starter-snake-node) project. 
-All typing documentation was copied from the Kian's TypeScript Starter Project, 
-which was copied from the offical Battlesnake [docs](https://docs.battlesnake.com/).
+This project is copied and modified from the [Kian Gorgichuk's](https://github.com/kgorgi) [TypeScript Starter Project](https://github.com/kgorgi/starter-snake-node-ts/), of which was copied and modified from Battlesnake's offical [JavaScript Starter Project](https://github.com/battlesnakeofficial/starter-snake-node) project.
+
+All typing documentation was copied from the Kian's TypeScript Starter Project, which was copied from the offical Battlesnake [docs](https://docs.battlesnake.com/).
 
 ### Technologies
 
 -   [Dart](https://dart.dev/)
--   [Shelf](https://pub.dev/packages/shelf))
+-   [Shelf](https://pub.dev/packages/shelf)
 -   [Shelf-Router](https://pub.dev/packages/shelf_router)
 
 ## Prerequisites
@@ -81,7 +75,7 @@ Now you're ready to start customizing your Battlesnake's appearance and behavior
 
 ### Changing Appearance
 
-Locate the `_rootHandler` function inside [main.dart](main.dart#L23). You should see a line that looks like this:
+Locate the `_rootHandler` function inside [hello_battlesnake.dart](bin/hello_battlesnake.dart#L23). You should see a line that looks like this:
 
 ```dart
 final mainResponse = MainResponse(
@@ -101,7 +95,7 @@ Whenever you update these values, go to the page for your Battlesnake and select
 
 On every turn of each game your Battlesnake receives information about the game board and must decide its next move.
 
-Locate the `_moveHandler` function inside [main.dart](main.dart#L45). Possible moves are 'up', 'down', 'left', or 'right'. To start, your Battlesnake will choose a move randomly. Your goal as a developer is to read information sent to you about the board (available in the `gameData` variable) and decide where your Battlesnake should move next.
+Locate the `_moveHandler` function inside [hello_battlesnake.dart](bin/hello_battlesnake.dart#L45). Possible moves are 'up', 'down', 'left', or 'right'. To start, your Battlesnake will choose a move randomly. Your goal as a developer is to read information sent to you about the board (available in the `gameData` variable) and decide where your Battlesnake should move next.
 
 See the [Battlesnake Game Rules](https://docs.battlesnake.com/references/rules) for more information on playing the game, moving around the board, and improving your algorithm.
 
@@ -155,7 +149,7 @@ If you have questions or ideas, our developer community on [Slack](https://play.
 Eventually you might want to run your Battlesnake server locally for faster testing and debugging. You can do this by installing [Dart](https://dart.dev/get-dart) and running:
 
 ```shell
-dart main.dart
+dart run
 ```
 
 **Note:** You cannot create games on [play.battlesnake.com](https://play.battlesnake.com) using a locally running Battlesnake unless you install and use a port forwarding tool like [ngrok](https://ngrok.com/).

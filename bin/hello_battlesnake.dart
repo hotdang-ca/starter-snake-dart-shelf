@@ -6,8 +6,8 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-import 'models/enums/direction.dart';
-import 'models/main_response.dart';
+import '../models/enums/direction.dart';
+import '../models/main_response.dart';
 
 /// Configure routes.
 final _router = Router()
@@ -17,7 +17,8 @@ final _router = Router()
   ..post('/end', _endHandler);
 
 /// Convenience method for returning a JSON response
-Response _jsonResponse (encodable) => Response.ok(json.encode(encodable), headers: { 'Content-Type': 'application/json'});
+Response _jsonResponse(encodable) => Response.ok(json.encode(encodable),
+    headers: {'Content-Type': 'application/json'});
 
 /// Request handler for the root path
 Response _rootHandler(Request req) {
@@ -29,7 +30,7 @@ Response _rootHandler(Request req) {
     headColor: 'default',
     tailColor: 'default',
   );
-  
+
   return _jsonResponse(mainResponse);
 }
 
@@ -61,7 +62,7 @@ Future<Response> _moveHandler(Request request) async {
 /// Request handler for the End path
 Future<Response> _endHandler(Request request) async {
   final gameData = await request.readAsString();
-  
+
   // TODO: clear game state, the game is over
   print('END');
   return Response.ok('ok');
@@ -72,9 +73,7 @@ void main(List<String> args) async {
   final ip = InternetAddress.anyIPv4;
 
   // Configure a pipeline that logs requests.
-  final handler = Pipeline()
-    .addMiddleware(logRequests())
-    .addHandler(_router);
+  final handler = Pipeline().addMiddleware(logRequests()).addHandler(_router);
 
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
