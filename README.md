@@ -27,15 +27,23 @@ which was copied from the offical Battlesnake [docs](https://docs.battlesnake.co
 
 ## Running Your Battlesnake on [Repl.it](https://repl.it)
 
-[![Run on Repl.it](https://repl.it/badge/github/kgorgi/starter-snake-node-ts)](https://repl.it/github/kgorgi/starter-snake-node-ts)
+[![Run on Repl.it](https://replit.com/github/hotdang-ca/starter-snake-dart-shelf)](https://replit.com/github/hotdang-ca/starter-snake-dart-shelf)
 
 1. Login to your [Repl.it](https://repl.it) account.
 
-2. Click the 'Run on Repl.it' button above, or visit the following URL: https://repl.it/github/kgorgi/starter-snake-node-ts.
+2. Click the 'Run on Repl.it' button above, or visit the following URL: `https://replit.com/github/hotdang-ca/starter-snake-dart-shelf`
 
 3. You should see your Repl being initialized - this might take a few moments to complete.
 
-4. Once your Repl is ready to run, click `Run ▶️` at the top of the screen. You should see Express (and any other dependencies) being installed. Once installation is complete, your Battlesnake server will start and you should see the following:
+4. Once your Repl is ready to run, click `Run ▶️` at the top of the screen.
+
+   Note: you may have to show the **Shell** and run:
+   ```
+   dart pub get
+   ```
+6. You should see Dart Shelf (and any other dependencies) being installed. Once installation is complete, your Battlesnake server will start and you should see the following:
+
+7. 
 
     ```
     Dart Shelf Battlesnake Server listening at port 8080
