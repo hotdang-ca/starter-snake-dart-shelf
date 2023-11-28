@@ -27,8 +27,6 @@ which was copied from the offical Battlesnake [docs](https://docs.battlesnake.co
 
 ## Running Your Battlesnake on [Repl.it](https://repl.it)
 
-[![Run on Repl.it](https://repl.it/badge/github/kgorgi/starter-snake-node-ts)](https://repl.it/github/kgorgi/starter-snake-node-ts)
-
 [![Run on Repl.it](https://repl.it/badge/github/hotdang-ca/starter-snake-dart-shelf)](https://repl.it/github/hotdang-ca/starter-snake-dart-shelf)
 
 1. Login to your [Repl.it](https://repl.it) account.
