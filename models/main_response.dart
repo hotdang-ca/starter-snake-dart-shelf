@@ -4,7 +4,7 @@ class MainResponse {
   static const keyHead = 'head';
   static const keyTail = 'tail';
   
-  final int apiVersion;
+  final String apiVersion;
   final String author;
   final String primaryColor;
   final String headColor;

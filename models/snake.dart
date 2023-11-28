@@ -78,4 +78,18 @@ class Snake {
     required this.squad,
     required this.customizations,
   });
+
+  Map<String, dynamic> toJson() {    
+    return <String, dynamic>{
+      'id': this.id,
+      'name': this.name,
+      'health': this.health,
+      'body': this.body,
+      'latency': this.latency,
+      'head': this.head,
+      'lenth': this.length,
+      'squad': this.squad,
+      'customizations': this.customizations,
+    };
+  }
 }

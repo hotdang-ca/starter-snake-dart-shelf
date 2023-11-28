@@ -18,7 +18,7 @@ final _router = Router()
 
 /// Your main response. Specify your details here.
 final mainResponse = MainResponse(
-  apiVersion: 1,
+  apiVersion: '1',
   author: 'Battlesnake',
   primaryColor: '#888888',
   headColor: 'default',
@@ -37,29 +37,32 @@ Response _rootHandler(Request req) {
 Future<Response> _startHandler(Request request) async {
   final gameData = await request.readAsString();
 
-  print('START');
+  print('START: $gameData');
   return Response.ok('ok');
 }
 
 /// Request handler for the Move path
 Future<Response> _moveHandler(Request request) async {
   final gameData = await request.readAsString();
+  // TODO:
+  // reference the GameData object
+  // Handle some special logic written by you
+  // Return your move!
 
-  /// Select the valid moves
+  // All the possible moves
   final possibleMoves = Direction.values;
-
-  // choose a random move
+  // choose a move based on logic... random, in this case.
   final move = possibleMoves.elementAt(Random().nextInt(possibleMoves.length));
 
   print('MOVE: ${move.name}');
-
   return Response.ok('ok');
 }
 
 /// Request handler for the End path
 Future<Response> _endHandler(Request request) async {
   final gameData = await request.readAsString();
-
+  
+  // TODO: clear game state, the game is over
   print('END');
   return Response.ok('ok');
 }
