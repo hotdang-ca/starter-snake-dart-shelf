@@ -10,7 +10,7 @@ class RuleSet {
   /// **Example**: "v1.2.3"
   final String version;
 
-  /// A collection of specific settings being used by the  
+  /// A collection of specific settings being used by the
   /// current game that control how the rules are applied.
   final GameSettings settings;
 
@@ -19,4 +19,11 @@ class RuleSet {
     required this.version,
     required this.settings,
   });
+
+  RuleSet.fromJson(Map<String, dynamic> json)
+      : name = GameMode.values.firstWhere(
+          (g) => g.name == json['name'],
+        ),
+        version = json['version'],
+        settings = GameSettings.fromJson(json['settings']);
 }

@@ -19,12 +19,6 @@ class GameSettings {
   /// **Example**: 14
   final int hazardDamagePerTurn;
 
-  /// A string identifier that describes the type of
-  /// hazard map that is used in the game.
-  ///
-  /// **Example**: "hz_spiral"
-  final String map;
-
   /// Optional Royale Settings
   RoyaleSettings? royale;
 
@@ -35,8 +29,18 @@ class GameSettings {
     required this.foodSpawnChance,
     required this.minimumFood,
     required this.hazardDamagePerTurn,
-    required this.map,
     this.royale,
     this.squad,
   });
+
+  GameSettings.fromJson(Map<String, dynamic> json)
+      : foodSpawnChance = json['foodSpawnChance'],
+        minimumFood = json['minimumFood'],
+        hazardDamagePerTurn = json['hazardDamagePerTurn'],
+        royale = json['royale'] != null
+            ? RoyaleSettings.fromJson(json['royale'])
+            : null,
+        squad = json['squad'] != null
+            ? SquadSettings.fromJson(json['squad'])
+            : null;
 }

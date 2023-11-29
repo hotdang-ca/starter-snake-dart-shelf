@@ -3,7 +3,7 @@ import 'snake.dart';
 
 class Board {
   /// Height of the game board (integer).
-  /// 
+  ///
   /// **Example**: 11
   final int height;
 
@@ -22,7 +22,7 @@ class Board {
   /// These will only appear in some game modes.
   ///
   /// **Example**: [{"x": 0, "y": 0}, ..., {"x": 0, "y": 1}]
-   
+
   final List<Coordinates> hazards;
 
   /// Array of Battlesnake Objects representing all Battlesnakes
@@ -38,4 +38,15 @@ class Board {
     required this.hazards,
     required this.snakes,
   });
+
+  Board.fromJson(Map<String, dynamic> json)
+      : height = json['height'],
+        width = json['width'],
+        food = json['food']
+            .map<Coordinates>((f) => Coordinates.fromJson(f))
+            .toList(),
+        hazards = json['hazards']
+            .map<Coordinates>((h) => Coordinates.fromJson(h))
+            .toList(),
+        snakes = json['snakes'].map<Snake>((s) => Snake.fromJson(s)).toList();
 }

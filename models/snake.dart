@@ -3,12 +3,12 @@ import 'snake_info.dart';
 
 class Snake {
   /// Unique identifier for this Battlesnake in the context of the current Game.
-  /// 
+  ///
   /// **Example**: "totally-unique-snake-id"
   final String id;
 
   /// Name given to this Battlesnake by its author.
-  /// 
+  ///
   /// **Example**: "Sneky McSnek Face"
   final String name;
 
@@ -18,35 +18,35 @@ class Snake {
   final int health;
 
   /// Array of coordinates representing this Battlesnake's location on the game board.
-  /// 
+  ///
   /// This array is ordered from head to tail.
-  /// 
+  ///
   /// **Example:** [{"x": 0, "y": 0}, ..., {"x": 2, "y": 0}] */
   final List<Coordinates> body;
 
   /// The previous response time of this Battlesnake, in milliseconds.
   ///
   /// "0" means the Battlesnake timed out and failed to respond.
-  /// 
+  ///
   /// **Example:** "450"
   final String latency;
 
   /// Coordinates for this Battlesnake's head.
   ///
   /// Equivalent to the first element of the body array.
-  /// 
+  ///
   /// **Example:** {"x": 0, "y": 0}
   final Coordinates head;
 
   /// Length of this Battlesnake from head to tail.
   ///
   /// Equivalent to the length (integer) of the body array.
-  /// 
+  ///
   /// **Example:** 3
   final int length;
 
   /// Message shouted by this Battlesnake on the previous turn.
-  /// 
+  ///
   /// **Example:** "why are we shouting??"
   final String? shout;
 
@@ -55,7 +55,7 @@ class Snake {
   /// Used to identify squad members in Squad Mode games.
   ///
   /// **Example:** "1"
-  /// 
+  ///
   /// *TODO* : can we link this to a squad model?
   final String squad;
 
@@ -76,7 +76,21 @@ class Snake {
     required this.customizations,
   });
 
-  Map<String, dynamic> toJson() {    
+  Snake.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        health = json['health'],
+        body = json['body']
+            .map<Coordinates>((b) => Coordinates.fromJson(b))
+            .toList(),
+        latency = json['latency'],
+        head = Coordinates.fromJson(json['head']),
+        length = json['length'],
+        shout = json['shout'],
+        squad = json['squad'],
+        customizations = SnakeInfo.fromJson(json['customizations']);
+
+  Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': this.id,
       'name': this.name,

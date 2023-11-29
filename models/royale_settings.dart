@@ -8,4 +8,7 @@ class RoyaleSettings {
   RoyaleSettings({
     required this.shrinkEveryNTurns,
   });
+
+  RoyaleSettings.fromJson(Map<String, dynamic> json)
+      : shrinkEveryNTurns = json['shrinkEveryNTurns'];
 }
