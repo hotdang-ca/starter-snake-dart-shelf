@@ -6,10 +6,14 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 
+import '../models/board.dart';
+import '../models/coordinates.dart';
 import '../models/enums/direction.dart';
 import '../models/enums/heads.dart';
 import '../models/enums/tails.dart';
+import '../models/game.dart';
 import '../models/main_response.dart';
+import '../models/snake.dart';
 
 /// Configure routes.
 final _router = Router()
@@ -47,18 +51,111 @@ Future<Response> _startHandler(Request request) async {
 /// Request handler for the Move path
 Future<Response> _moveHandler(Request request) async {
   final gameData = await request.readAsString();
-  // TODO:
-  // reference the GameData object
-  // Handle some special logic written by you
-  // Return your move!
+  final gameDataJson = json.decode(gameData);
 
-  // All the possible moves
-  final possibleMoves = Direction.values;
-  // choose a move based on logic... random, in this case.
-  final move = possibleMoves.elementAt(Random().nextInt(possibleMoves.length));
+  final board = Board.fromJson(gameDataJson['board']);
+  final you = Snake.fromJson(gameDataJson['you']);
+  final game = Game.fromJson(gameDataJson['game']);
 
-  print('MOVE: ${move.name}');
-  return Response.ok('ok');
+  print('My location: ${you.head.x}x${you.head.y}');
+
+  final possibleMoves = [
+    Direction.up,
+    Direction.down,
+    Direction.left,
+    Direction.right,
+  ];
+  final Coordinates myCoordinate = Coordinates(x: you.head.x, y: you.head.y);
+
+  // don't hit the walls
+  if (myCoordinate.x == 0) {
+    // no matter what, we're on the left column. Cannot go left.
+    possibleMoves.remove(Direction.left);
+  } else if (myCoordinate.x == board.width - 1) {
+    // no matter what, we're on the right column. Cannot go right.
+    possibleMoves.remove(Direction.right);
+  }
+
+  if (myCoordinate.y == 0) {
+    // no matter what, we're on the bottom row. Cannot go down.
+    possibleMoves.remove(Direction.down);
+  } else if (myCoordinate.y == board.height - 1) {
+    // no matter what, we're on the top row. Cannot go up.
+    possibleMoves.remove(Direction.up);
+  }
+
+  // don't hit yourself
+  for (final bodyPart in you.body) {
+    if (bodyPart.x == myCoordinate.x) {
+      if (bodyPart.y == myCoordinate.y + 1) {
+        // body part is above head
+        possibleMoves.remove(Direction.up);
+      } else if (bodyPart.y == myCoordinate.y - 1) {
+        // body part is below head
+        possibleMoves.remove(Direction.down);
+      }
+    } else if (bodyPart.y == myCoordinate.y) {
+      if (bodyPart.x == myCoordinate.x + 1) {
+        // body part is to the right of head
+        possibleMoves.remove(Direction.right);
+      } else if (bodyPart.x == myCoordinate.x - 1) {
+        // body part is to the left of head
+        possibleMoves.remove(Direction.left);
+      }
+    }
+  }
+
+  // prefer the food if we're adjacent to it
+  List<Direction> preferredMoves = [];
+  for (final food in board.food) {
+    // there is food to the right
+    if (food.x == myCoordinate.x + 1 && food.y == myCoordinate.y) {
+      preferredMoves.add(Direction.right);
+    }
+
+    // there is food to the left
+    if (food.x == myCoordinate.x - 1 && food.y == myCoordinate.y) {
+      preferredMoves.add(Direction.left);
+    }
+
+    // there is food above
+    if (food.x == myCoordinate.x && food.y == myCoordinate.y + 1) {
+      preferredMoves.add(Direction.up);
+    }
+
+    // there is food below
+    if (food.x == myCoordinate.x && food.y == myCoordinate.y - 1) {
+      preferredMoves.add(Direction.down);
+    }
+  }
+  // All the remaining possible moves
+  print('POSSIBLE MOVES: $possibleMoves');
+  print('PREFERRED MOVES: $preferredMoves');
+
+  late final Direction move;
+  if (possibleMoves.length == 0) {
+    // no possible moves, we lose
+    print('NO POSSIBLE MOVES');
+    move = Direction.up; // just pick something
+  } else {
+    // choose the first preferred move that is also in the remaing possible moves
+    if (preferredMoves.length > 0) {
+      for (final preferredMove in preferredMoves) {
+        if (possibleMoves.contains(preferredMove)) {
+          move = preferredMove;
+          print('PREFERRED MOVE: ${move.name}');
+          break;
+        }
+      }
+    } else {
+      // choose a random move from the possible moves
+      move = possibleMoves.elementAt(Random().nextInt(possibleMoves.length));
+    }
+
+    print('MOVE: ${move.name}');
+  }
+
+  return _jsonResponse({'move': move.name});
 }
 
 /// Request handler for the End path
