@@ -1,3 +1,4 @@
+import 'enums/game_map.dart';
 import 'enums/game_source.dart';
 import 'rule_set.dart';
 
@@ -15,7 +16,7 @@ class Game {
   /// food, and hazards.
   ///
   /// **Example**: "standard"
-  final String? map;
+  final GameMap map;
 
   /// How much time your snake has to respond to
   /// requests for this Game in milliseconds (integer).
@@ -46,7 +47,9 @@ class Game {
       : id = json['id'],
         ruleSet = RuleSet.fromJson(json['ruleset']),
         timeout = json['timeout'],
-        map = json['map'],
+        map = GameMap.values.firstWhere(
+          (m) => m.jsonName == json['map'],
+        ),
         gameSource = GameSource.values.firstWhere(
           (g) => g.name == json['source'],
         );

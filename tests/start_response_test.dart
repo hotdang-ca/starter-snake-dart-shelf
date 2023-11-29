@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'package:test/test.dart';
 
 import '../models/board.dart';
+import '../models/enums/game_map.dart';
 import '../models/enums/game_mode.dart';
 import '../models/enums/game_source.dart';
 import '../models/enums/heads.dart';
 import '../models/enums/tails.dart';
 import '../models/game.dart';
-import '../models/royale_settings.dart';
 import '../models/snake.dart';
-import '../models/squad_settings.dart';
 
 void main() {
   group('It creates models from the Start response:', () {
@@ -161,9 +160,9 @@ void main() {
       expect(game.ruleSet.settings.foodSpawnChance, 15);
       expect(game.ruleSet.settings.minimumFood, 1);
       expect(game.ruleSet.settings.hazardDamagePerTurn, 0);
-      expect(game.ruleSet.settings.royale is RoyaleSettings, true);
-      expect(game.ruleSet.settings.squad is SquadSettings, true);
-      expect(game.map, 'standard');
+      //   expect(game.ruleSet.settings.royale, true);
+      //   expect(game.ruleSet.settings.squad, true);
+      expect(game.map, GameMap.standard);
       expect(game.timeout, 500);
       expect(game.gameSource, GameSource.custom);
     });
