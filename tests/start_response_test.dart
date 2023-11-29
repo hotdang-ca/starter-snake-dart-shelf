@@ -4,13 +4,16 @@ import 'package:test/test.dart';
 import '../models/board.dart';
 import '../models/enums/game_mode.dart';
 import '../models/enums/game_source.dart';
+import '../models/enums/heads.dart';
+import '../models/enums/tails.dart';
 import '../models/game.dart';
 import '../models/royale_settings.dart';
+import '../models/snake.dart';
 import '../models/squad_settings.dart';
 
 void main() {
-  group('It creates models from the Start response', () {
-    const String jsonResponse = '''
+  group('It creates models from the Start response:', () {
+    const String startResponse = '''
 {
     "game": {
         "id": "dfa9b3d4-831c-40dd-8621-dab104d8d41e",
@@ -122,8 +125,25 @@ void main() {
     }
 }
 ''';
-    final Map<String, dynamic> response = json.decode(jsonResponse);
-    test('It creates a from JSON', () {
+    final Map<String, dynamic> response = json.decode(startResponse);
+
+    test('It creates a Snake object from JSON', () {
+      final Snake snake = Snake.fromJson(response['you']);
+      expect(snake.id, 'gs_GmdWwDkgKvDW3YcykBRW3KHC');
+      expect(snake.name, 'My First Battlesnake');
+      expect(snake.health, 100);
+      expect(snake.body.length, 3);
+      expect(snake.head.x, 9);
+      expect(snake.head.y, 9);
+      expect(snake.length, 3);
+      expect(snake.shout, '');
+      expect(snake.squad, '');
+      expect(snake.customizations.color, '#888888');
+      expect(snake.customizations.head, Heads.defaultHead);
+      expect(snake.customizations.tail, Tails.defaultTail);
+    });
+
+    test('It creates a Board from JSON', () {
       final Board board = Board.fromJson(response['board']);
       expect(board.height, 11);
       expect(board.width, 11);
