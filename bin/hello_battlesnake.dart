@@ -155,6 +155,22 @@ Future<Response> _moveHandler(Request request) async {
       // no food nearby. Prefer last action, otherwise pick a random move
       if (possibleMoves.contains(lastDirection)) {
         move = lastDirection!;
+      } else if (possibleMoves.contains(Direction.left) &&
+          (possibleMoves.contains(Direction.right))) {
+        // we have two options, pick the one that has the most space
+        if (myCoordinate.x < board.width / 2) {
+          move = Direction.right;
+        } else {
+          move = Direction.left;
+        }
+      } else if (possibleMoves.contains(Direction.up) &&
+          (possibleMoves.contains(Direction.down))) {
+        // we have two options, pick the one that has the most space
+        if (myCoordinate.y < board.height / 2) {
+          move = Direction.up;
+        } else {
+          move = Direction.down;
+        }
       } else {
         move = possibleMoves.elementAt(Random().nextInt(possibleMoves.length));
       }
