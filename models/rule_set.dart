@@ -1,5 +1,5 @@
 import 'enums/game_mode.dart';
-import 'game_settings.dart';
+import 'ruleset_settings.dart';
 
 class RuleSet {
   /// Name of the ruleset being used to run this game.
@@ -12,7 +12,7 @@ class RuleSet {
 
   /// A collection of specific settings being used by the
   /// current game that control how the rules are applied.
-  final GameSettings settings;
+  final RulesetSettings settings;
 
   RuleSet({
     required this.name,
@@ -25,5 +25,5 @@ class RuleSet {
           (g) => g.name == json['name'],
         ),
         version = json['version'],
-        settings = GameSettings.fromJson(json['settings']);
+        settings = RulesetSettings.fromJson(json['settings']);
 }

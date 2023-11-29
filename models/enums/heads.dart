@@ -1,7 +1,5 @@
 enum Heads {
-  /**
-   * The default head.
-   */
+  /// The default head.
   defaultHead,
 
   /**
@@ -10,6 +8,7 @@ enum Heads {
   beluga,
   bendr,
   dead,
+  doSammy,
   evil,
   fang,
   pixel,
@@ -19,6 +18,7 @@ enum Heads {
   silly,
   smile,
   tongue,
+  mlhGene,
 
   /**
    * Designed by friends and partners of Battlesnake!
@@ -112,6 +112,10 @@ extension HeadValues on Heads {
         return 'sand-worm';
       case Heads.allSeeing:
         return 'all-seeing';
+      case Heads.doSammy:
+        return 'do-sammy';
+      case Heads.mlhGene:
+        return 'mlh-gene';
       case Heads.smartCaterpillar:
         return 'smart-caterpillar';
       case Heads.transRightsScarf:

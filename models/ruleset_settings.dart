@@ -1,7 +1,7 @@
 import 'royale_settings.dart';
 import 'squad_settings.dart';
 
-class GameSettings {
+class RulesetSettings {
   /// Percentage chance of spawning a new food every round.
   ///
   /// **Example**: 25
@@ -20,27 +20,23 @@ class GameSettings {
   final int hazardDamagePerTurn;
 
   /// Optional Royale Settings
-  RoyaleSettings? royale;
+  RoyaleSettings royale;
 
   /// Optional Squad Settings
-  SquadSettings? squad;
+  SquadSettings squad;
 
-  GameSettings({
+  RulesetSettings({
     required this.foodSpawnChance,
     required this.minimumFood,
     required this.hazardDamagePerTurn,
-    this.royale,
-    this.squad,
+    required this.royale,
+    required this.squad,
   });
 
-  GameSettings.fromJson(Map<String, dynamic> json)
+  RulesetSettings.fromJson(Map<String, dynamic> json)
       : foodSpawnChance = json['foodSpawnChance'],
         minimumFood = json['minimumFood'],
         hazardDamagePerTurn = json['hazardDamagePerTurn'],
-        royale = json['royale'] != null
-            ? RoyaleSettings.fromJson(json['royale'])
-            : null,
-        squad = json['squad'] != null
-            ? SquadSettings.fromJson(json['squad'])
-            : null;
+        royale = RoyaleSettings.fromJson(json['royale']),
+        squad = SquadSettings.fromJson(json['squad']);
 }
