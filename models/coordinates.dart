@@ -13,4 +13,8 @@ class Coordinates {
     required this.x,
     required this.y,
   });
+
+  Coordinates.fromJson(Map<String, dynamic> json)
+      : x = json['x'],
+        y = json['y'];
 }

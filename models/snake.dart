@@ -76,6 +76,20 @@ class Snake {
     required this.customizations,
   });
 
+  Snake.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        health = json['health'],
+        body = json['body']
+            .map<Coordinates>((b) => Coordinates.fromJson(b))
+            .toList(),
+        latency = json['latency'],
+        head = Coordinates.fromJson(json['head']),
+        length = json['length'],
+        shout = json['shout'],
+        squad = json['squad'],
+        customizations = SnakeInfo.fromJson(json['customizations']);
+
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': this.id,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:test/test.dart';
 
+import '../models/board.dart';
 import '../models/enums/game_mode.dart';
 import '../models/enums/game_source.dart';
 import '../models/game.dart';
@@ -8,8 +9,8 @@ import '../models/royale_settings.dart';
 import '../models/squad_settings.dart';
 
 void main() {
-  test('It creates a Game from JSON', () {
-    String jsonResponse = '''
+  group('It creates models from the Start response', () {
+    const String jsonResponse = '''
 {
     "game": {
         "id": "dfa9b3d4-831c-40dd-8621-dab104d8d41e",
@@ -121,20 +122,30 @@ void main() {
     }
 }
 ''';
-
     final Map<String, dynamic> response = json.decode(jsonResponse);
-    final Game game = Game.fromJson(response['game']);
+    test('It creates a from JSON', () {
+      final Board board = Board.fromJson(response['board']);
+      expect(board.height, 11);
+      expect(board.width, 11);
+      expect(board.hazards.length, 0);
+      expect(board.snakes.length, 1);
+      expect(board.food.length, 2);
+    });
 
-    expect(game.id, 'dfa9b3d4-831c-40dd-8621-dab104d8d41e');
-    expect(game.ruleSet.name, GameMode.standard);
-    expect(game.ruleSet.version, 'v1.2.3');
-    expect(game.ruleSet.settings.foodSpawnChance, 15);
-    expect(game.ruleSet.settings.minimumFood, 1);
-    expect(game.ruleSet.settings.hazardDamagePerTurn, 0);
-    expect(game.ruleSet.settings.royale is RoyaleSettings, true);
-    expect(game.ruleSet.settings.squad is SquadSettings, true);
-    expect(game.map, 'standard');
-    expect(game.timeout, 500);
-    expect(game.gameSource, GameSource.custom);
+    test('It creates a Game from JSON', () {
+      final Game game = Game.fromJson(response['game']);
+
+      expect(game.id, 'dfa9b3d4-831c-40dd-8621-dab104d8d41e');
+      expect(game.ruleSet.name, GameMode.standard);
+      expect(game.ruleSet.version, 'v1.2.3');
+      expect(game.ruleSet.settings.foodSpawnChance, 15);
+      expect(game.ruleSet.settings.minimumFood, 1);
+      expect(game.ruleSet.settings.hazardDamagePerTurn, 0);
+      expect(game.ruleSet.settings.royale is RoyaleSettings, true);
+      expect(game.ruleSet.settings.squad is SquadSettings, true);
+      expect(game.map, 'standard');
+      expect(game.timeout, 500);
+      expect(game.gameSource, GameSource.custom);
+    });
   });
 }
