@@ -13,7 +13,7 @@ import '../models/squad_settings.dart';
 
 void main() {
   group('It creates models from the Start response:', () {
-    const String startResponse = '''
+    const String sampleStartReponse = '''
 {
     "game": {
         "id": "dfa9b3d4-831c-40dd-8621-dab104d8d41e",
@@ -125,7 +125,7 @@ void main() {
     }
 }
 ''';
-    final Map<String, dynamic> response = json.decode(startResponse);
+    final Map<String, dynamic> response = json.decode(sampleStartReponse);
 
     test('It creates a Snake object from JSON', () {
       final Snake snake = Snake.fromJson(response['you']);
