@@ -15,6 +15,19 @@ import '../models/game.dart';
 import '../models/main_response.dart';
 import '../models/snake.dart';
 
+/// configuration
+// Your main configuration. Specify your details here.
+final mainResponse = MainResponse(
+  apiVersion: '1',
+  author: 'Battlesnake',
+  color: '#eb6433',
+  head: Heads.defaultHead,
+  tail: Tails.defaultTail,
+);
+
+/// Some global state.
+Direction? lastDirection;
+
 /// Configure routes.
 final _router = Router()
   ..get('/', _rootHandler)
@@ -28,15 +41,6 @@ Response _jsonResponse(encodable) => Response.ok(json.encode(encodable),
 
 /// Request handler for the root path
 Response _rootHandler(Request req) {
-  // Your main configuration. Specify your details here.
-  final mainResponse = MainResponse(
-    apiVersion: '1',
-    author: 'Battlesnake',
-    color: '#eb6433',
-    head: Heads.defaultHead,
-    tail: Tails.defaultTail,
-  );
-
   return _jsonResponse(mainResponse);
 }
 
@@ -136,7 +140,7 @@ Future<Response> _moveHandler(Request request) async {
   if (possibleMoves.length == 0) {
     // no possible moves, we lose
     print('NO POSSIBLE MOVES');
-    move = Direction.up; // just pick something
+    move = lastDirection ?? Direction.up; // just pick something
   } else {
     // choose the first preferred move that is also in the remaing possible moves
     if (preferredMoves.length > 0) {
@@ -148,11 +152,16 @@ Future<Response> _moveHandler(Request request) async {
         }
       }
     } else {
-      // choose a random move from the possible moves
-      move = possibleMoves.elementAt(Random().nextInt(possibleMoves.length));
+      // no food nearby. Prefer last action, otherwise pick a random move
+      if (possibleMoves.contains(lastDirection)) {
+        move = lastDirection!;
+      } else {
+        move = possibleMoves.elementAt(Random().nextInt(possibleMoves.length));
+      }
     }
 
     print('MOVE: ${move.name}');
+    lastDirection = move;
   }
 
   return _jsonResponse({'move': move.name});
