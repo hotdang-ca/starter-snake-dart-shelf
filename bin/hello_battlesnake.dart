@@ -7,6 +7,8 @@ import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 import '../models/enums/direction.dart';
+import '../models/enums/heads.dart';
+import '../models/enums/tails.dart';
 import '../models/main_response.dart';
 
 /// Configure routes.
@@ -26,9 +28,9 @@ Response _rootHandler(Request req) {
   final mainResponse = MainResponse(
     apiVersion: '1',
     author: 'Battlesnake',
-    primaryColor: '#888888',
-    headColor: 'default',
-    tailColor: 'default',
+    color: '#eb6433',
+    head: Heads.defaultHead,
+    tail: Tails.defaultTail,
   );
 
   return _jsonResponse(mainResponse);

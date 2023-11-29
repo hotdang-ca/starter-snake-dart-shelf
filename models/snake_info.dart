@@ -31,11 +31,11 @@ class SnakeInfo {
   SnakeInfo.fromJson(Map<String, dynamic> json)
       : color = json['color'],
         head = Heads.values.firstWhere(
-          (h) => h.name == json['head'],
+          (h) => h.unsanitizedStringValue == json['head'],
           orElse: () => Heads.defaultHead,
         ),
         tail = Tails.values.firstWhere(
-          (t) => t.name == json['tail'],
+          (t) => t.unsanitizedStringValue == json['tail'],
           orElse: () => Tails.defaultTail,
         );
 
