@@ -1,6 +1,6 @@
 class SquadSettings {
   /// Allow members of the same squad to move over each other without dying.
-  /// 
+  ///
   /// **Example**: true
   final bool allowBodyCollisions;
 
@@ -10,7 +10,7 @@ class SquadSettings {
   final bool sharedElimination;
 
   /// All squad members share health.
-  /// 
+  ///
   /// **Example**: true
   final bool sharedHealth;
 
@@ -25,4 +25,10 @@ class SquadSettings {
     required this.sharedHealth,
     required this.sharedLength,
   });
+
+  SquadSettings.fromJson(Map<String, dynamic> json)
+      : allowBodyCollisions = json['allowBodyCollisions'],
+        sharedElimination = json['sharedElimination'],
+        sharedHealth = json['sharedHealth'],
+        sharedLength = json['sharedLength'];
 }
