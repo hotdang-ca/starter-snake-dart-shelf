@@ -26,7 +26,7 @@ final mainResponse = MainResponse(
 );
 
 /// Some global state.
-Direction? lastDirection;
+final lastDirectionMap = <String, Direction?>{};
 
 /// Configure routes.
 final _router = Router()
@@ -47,6 +47,11 @@ Response _rootHandler(Request req) {
 /// Request handler for the Start path
 Future<Response> _startHandler(Request request) async {
   final gameData = await request.readAsString();
+  final Game game = Game.fromJson(json.decode(gameData));
+
+  print('Request to start game ${game.id}');
+  // set up game state
+  lastDirectionMap[game.id] = null;
 
   print('START: $gameData');
   return Response.ok('ok');
@@ -79,7 +84,6 @@ Future<Response> _moveHandler(Request request) async {
     // no matter what, we're on the right column. Cannot go right.
     possibleMoves.remove(Direction.right);
   }
-
   if (myCoordinate.y == 0) {
     // no matter what, we're on the bottom row. Cannot go down.
     possibleMoves.remove(Direction.down);
@@ -105,6 +109,37 @@ Future<Response> _moveHandler(Request request) async {
       } else if (bodyPart.x == myCoordinate.x - 1) {
         // body part is to the left of head
         possibleMoves.remove(Direction.left);
+      }
+    }
+  }
+
+  // don't hit another snake body... but we do want to eat a snake if we are headon
+  for (final Snake snake in board.snakes) {
+    if (snake.id == you.id) {
+      // it's me. I've already taken care of this. Move onto another
+      continue;
+    }
+
+    for (final Coordinates coordinate in snake.body) {
+      // there is a snake body part to the right
+      if (coordinate.x == myCoordinate.x + 1 &&
+          coordinate.y == myCoordinate.y) {
+        possibleMoves.remove(Direction.right);
+      }
+
+      if (coordinate.x == myCoordinate.x - 1 &&
+          coordinate.y == myCoordinate.y) {
+        possibleMoves.remove(Direction.left);
+      }
+
+      if (coordinate.x == myCoordinate.x &&
+          coordinate.y == myCoordinate.y + 1) {
+        possibleMoves.remove(Direction.up);
+      }
+
+      if (coordinate.x == myCoordinate.x &&
+          coordinate.y == myCoordinate.y - 1) {
+        possibleMoves.remove(Direction.down);
       }
     }
   }
@@ -135,6 +170,12 @@ Future<Response> _moveHandler(Request request) async {
   // All the remaining possible moves
   print('POSSIBLE MOVES: $possibleMoves');
   print('PREFERRED MOVES: $preferredMoves');
+
+  // prefer the same direction I was already going
+  Direction? lastDirection = lastDirectionMap[game.id];
+  if (lastDirection != null) {
+    print('My last direction: ${lastDirection.name}');
+  }
 
   late final Direction move;
   if (possibleMoves.length == 0) {
@@ -177,7 +218,7 @@ Future<Response> _moveHandler(Request request) async {
     }
 
     print('MOVE: ${move.name}');
-    lastDirection = move;
+    lastDirectionMap[game.id] = move;
   }
 
   return _jsonResponse({'move': move.name});
