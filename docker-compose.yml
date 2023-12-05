@@ -9,5 +9,5 @@ services:
     container_name: battlesnake_dart_api
     ports:
       - '8080:8080'
-    volumes:
-      - .:/app
+    #volumes:
+    #  - .:/app
