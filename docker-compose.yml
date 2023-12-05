@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  battlesnake_dart_api:
+    build:
+      context: .
+      dockerfile: Dockerfile.deploy
+    restart: on-failure
+    container_name: battlesnake_dart_api
+    ports:
+      - '8080:8080'
+    volumes:
+      - .:/app

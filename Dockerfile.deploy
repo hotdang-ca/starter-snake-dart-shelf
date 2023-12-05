@@ -1,0 +1,29 @@
+# syntax=docker/dockerfile:1.2
+# The Dockerfile for the budvue_api, used for Cloud Run Deployments.
+#
+# Uses the official Dart image: https://hub.docker.com/_/dart
+FROM dart:stable AS build
+
+WORKDIR /app
+COPY pubspec.* ./
+RUN dart pub get
+
+COPY . .
+
+RUN dart pub get --offline
+RUN dart compile exe bin/hello_battlesnake.dart -o bin/server
+
+## New image from scratch, copy the generated assets and dart runtime
+FROM scratch
+COPY --from=build /runtime/ /
+COPY --from=build /app/bin/server /app/bin/
+
+# Load up .env as secrets
+# RUN --mount=type=secret,id=env,dst=/app/.env
+# RUN chmod 777 /app/.env
+
+# Expose ports
+EXPOSE 8080
+
+# Start server
+ENTRYPOINT ["/app/bin/server"]
